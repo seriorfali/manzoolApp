@@ -1,4 +1,5 @@
 var showroomRouter = require("express").Router()
+// To access showrooms and users controllers.
   , showroomsController = require("../assets/controllers/showroomsController.js")
   , usersController = require("../assets/controllers/usersController.js")
   
@@ -6,8 +7,8 @@ showroomRouter.get("/", showroomsController.showAllShowrooms)
 
 showroomRouter.get("/:id", showroomsController.showShowroom)
 
-// To restrict user access to following routes
-showroomRouter.use(usersController.verifyUser)
+// To identify user submitting request
+showroomRouter.use(usersController.identifyUser)
 
 // User-restricted routes
 showroomRouter.post("/", showroomsController.addShowroom)

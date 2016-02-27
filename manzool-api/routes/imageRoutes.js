@@ -1,4 +1,5 @@
 var imageRouter = require("express").Router()
+// To access images and users controllers.
   , imagesController = require("../assets/controllers/projectsController.js")
   , usersController = require("../assets/controllers/usersController.js")
 
@@ -13,10 +14,10 @@ imageRouter.get("/showrooms/:showroom_id/images", imagesController.showShowroomI
 
 imageRouter.get("/users/:user_id/images", imagesController.showUserImages)
 
-imageRouter.get("images/:id", imagesController.showImage)
+imageRouter.get("/images/:id", imagesController.showImage)
 
-// To restrict user access to following routes
-imageRouter.use(usersController.verifyUser)
+// To identify user submitting request
+imageRouter.use(usersController.identifyUser)
 
 // User-restricted routes
 imageRouter.post("/images", imagesController.addImage)
