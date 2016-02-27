@@ -20,10 +20,10 @@ var clientRoutes = require("./routes/clientRoutes.js")
   , userRoutes = require("./routes/userRoutes.js")
   
 app.use("/api/v1/clients", clientRoutes)
-app.use("/api/v1/images", imageRoutes)
 app.use("/api/v1/projects", projectRoutes)
 app.use("/api/v1/showroom", showroomRoutes)
 app.use("/api/v1/users", userRoutes)
+app.use("/api/v1", imageRoutes)
 
 var routeInfo = {
 	message: "Please submit a request to one of the available routes.",
