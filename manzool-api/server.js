@@ -27,20 +27,114 @@ app.use("/api/v1", imageRoutes)
 
 var routeInfo = {
 	message: "Please submit a request to one of the available routes.",
-	get: {
-		
+	publicRoutes: {
+		get: {
+			clients: {
+				showAllClients: "/api/v1/clients/",
+				showClient: "/api/v1/clients/CLIENT_ID/"
+			},
+			images: {
+				showAllImages: "/api/v1/images/",
+				showAllClientImages: "/api/v1/clients/images/",
+				showClientImages: "/api/v1/clients/CLIENT_ID/images/",
+				showAllProjectImages: "/api/v1/projects/images/",
+				showProjectImages: "/api/v1/projects/PROJECT_ID/images/",
+				showAllShowroomImages: "/api/v1/showrooms/images/",
+				showShowroomImages: "/api/v1/showrooms/SHOWROOM_ID/images/",
+				showAllUserImages: "/api/v1/users/images/",
+				showUserImages: "/api/v1/users/USER_ID/images/",
+				showImage: "/api/v1/images/IMAGE_ID/"
+			},
+			projects: {
+				showAllProjects: "/api/v1/projects/",
+				showProject: "/api/v1/projects/PROJECT_ID/"
+			},
+			showrooms: {
+				showAllShowrooms: "/api/v1/showrooms/",
+				showShowroom: "/api/v1/showrooms/SHOWROOM_ID/"
+			}
+		},
+		post: {
+			users: {
+				addUser: "/api/v1/users/",
+				validateUser: "/api/v1/users/validate/",
+				authenticateUser: "/api/v1/users/authenticate/"
+			}
+		}
 	},
-	post: {
-		
-	},
-	put: {
-		
-	},
-	patch: {
-		
-	},
-	delete: {
-		
+	restrictedRoutes: {
+		get: {
+			users: {
+				showAllUsers: "/api/v1/users/",
+				showCurrentUser: "/api/v1/users/current/",
+				showUser: "/api/v1/users/USER_ID/"
+			}
+		},
+		post: {
+			clients: {
+				addClient: "/api/v1/clients/"
+			},
+			images: {
+				addImage: "/api/v1/images/"
+			},
+			projects: {
+				addProject: "/api/v1/projects/"
+			},
+			showrooms: {
+				addShowroom: "/api/v1/showrooms/"
+			}
+		},
+		put: {
+			clients: {
+				editClient: "/api/v1/clients/CLIENT_ID/"
+			},
+			images: {
+				editImage: "/api/v1/images/IMAGE_ID/"
+			},
+			projects: {
+				editProject: "/api/v1/projects/PROJECT_ID/"
+			},
+			showrooms: {
+				editShowroom: "/api/v1/showrooms/SHOWROOM_ID/"
+			},
+			users: {
+				editUser: "/api/v1/users/USER_ID/"
+			}
+		},
+		patch: {
+			clients: {
+				editClient: "/api/v1/clients/CLIENT_ID/"
+			},
+			images: {
+				editImage: "/api/v1/images/IMAGE_ID/"
+			},
+			projects: {
+				editProject: "/api/v1/projects/PROJECT_ID/"
+			},
+			showrooms: {
+				editShowroom: "/api/v1/showrooms/SHOWROOM_ID/"
+			},
+			users: {
+				editUser: "/api/v1/users/USER_ID/"
+			}
+		},
+		delete: {
+			clients: {
+				deleteClient: "/api/v1/clients/CLIENT_ID/"
+			},
+			images: {
+				deleteImage: "/api/v1/images/IMAGE_ID/"
+			},
+			projects: {
+				deleteProject: "/api/v1/projects/PROJECT_ID/"
+			},
+			showrooms: {
+				deleteShowroom: "/api/v1/showrooms/SHOWROOM_ID/"
+			},
+			users: {
+				deleteUser: "/api/v1/users/USER_ID/"
+			}
+		}
 	}
 }
 

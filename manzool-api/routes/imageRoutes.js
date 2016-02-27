@@ -6,11 +6,19 @@ var imageRouter = require("express").Router()
 // Public routes to handle requests to retrieve client, project, showroom, user, single, and all images
 imageRouter.get("/images", imagesController.showAllImages)
 
+imageRouter.get("/clients/images", imagesController.showAllClientImages)
+
 imageRouter.get("/clients/:client_id/images", imagesController.showClientImages)
+
+imageRouter.get("/projects/images", imagesController.showAllProjectImages)
 
 imageRouter.get("/projects/:project_id/images", imagesController.showProjectImages)
 
+imageRouter.get("/showrooms/images", imagesController.showAllShowroomImages)
+
 imageRouter.get("/showrooms/:showroom_id/images", imagesController.showShowroomImages)
+
+imageRouter.get("/users/images", imagesController.showAllUserImages)
 
 imageRouter.get("/users/:user_id/images", imagesController.showUserImages)
 

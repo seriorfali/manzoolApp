@@ -16,7 +16,7 @@ userRouter.get("/", usersController.showAllUsers)
 
 userRouter.get("/current", usersController.showCurrentUser)
 
-userRouter.get("/:id")
+userRouter.route("/:id")
   .get(usersController.showUser)
   .put(usersController.editUser)
   .patch(usersController.editUser)
