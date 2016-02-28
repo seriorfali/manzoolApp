@@ -25,6 +25,7 @@ app.use("/api/v1/showroom", showroomRoutes)
 app.use("/api/v1/users", userRoutes)
 app.use("/api/v1", imageRoutes)
 
+// Response for requests to unassigned routes
 var routeInfo = {
 	message: "Please submit a request to one of the available routes.",
 	publicRoutes: {
@@ -138,6 +139,7 @@ var routeInfo = {
 	}
 }
 
+// To issue response for all requests to unassigned routes
 app.get("*", function(req, res) {
 	res.json(routeInfo)
 })
