@@ -1,10 +1,13 @@
 var mongoose = require("mongoose")
   , Email = require("../helpers/mongooseTypes/Email.js")
-  , schema = mongoose.Schema
+  , Phone = require("../helpers/mongooseTypes/Phone.js")
+  , Url = require("../helpers/mongooseTypes/Phone.js")
+  , Schema = mongoose.Schema
   , encrypter = require("bcrypt-nodejs")
 
 // User schema
 var userSchema = new Schema({
+	type: String,
 	firstName: String,
 	lastName: String,
 	email: {
@@ -12,12 +15,13 @@ var userSchema = new Schema({
 		required: true,
 		index: {
 			unique: true}
-		}
 	},
+	phone: Phone,
 	password: {
 		type: String,
 		required: true
-	}
+	},
+	images: [{type: Schema.Types.ObjectId, ref: "Image"}]
 })
 
 // If user is new or password is changed, encrypt password before user data is saved
@@ -37,7 +41,7 @@ userSchema.pre("save", function(next) {
 })
 
 // To verify if given value matches encrypted password
-userSchema.methods.verifyPassword= function(value) {
+userSchema.methods.verifyPassword = function(value) {
 	var user = this
 	
 	return encrypter.compareSync(value, user.password)
