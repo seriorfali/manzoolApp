@@ -1,17 +1,22 @@
 var mongoose = require("mongoose")
 
+// To construct prototype for emails
 function Email(path, options) {
+	// To initialize string properties and methods for email prototype
 	mongoose.SchemaTypes.String.call(this, path, options, "Email")
 	
 	// To check if value is valid email
 	function validateEmail(value) {
-		return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(value)
+		var regExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+
+		return regExp.test(value)
 	}
 	
 	this.validate(validateEmail, "Not a valid email address")
 }
 
-Email.prototype = mongoose.SchemaTypes.String.prototype
+// To grant email prototype inheritance from string prototype
+Email.prototype = Object.create(mongoose.SchemaTypes.String.prototype)
 
 Email.prototype.cast = function(value) {
 	return value.toLowerCase()
