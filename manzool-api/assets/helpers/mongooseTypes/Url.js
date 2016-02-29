@@ -1,4 +1,5 @@
 var mongoose = require("mongoose")
+  , normalizeUrl = require("normalizeurl")
 
 // To construct prototype for URLs
 function Url(path, options) {
@@ -19,17 +20,7 @@ function Url(path, options) {
 Url.prototype = Object.create(mongoose.SchemaTypes.String.prototype)
 
 Url.prototype.cast = function(value) {
-	var url = "+"
-	
-	for (var i = 0; i <= value.length - 1; i++) {
-		var character = value[i]
-		
-		if (isNaN(character) === false) {
-			url += character
-		}
-	}
-
-	return url
+	return normalizeUrl(value)
 }
 
 // To add new type to Mongoose type registry
