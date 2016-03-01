@@ -4,6 +4,11 @@ var User = require("../models/User.js")
 
 // To retrieve all user documents from database
 function showAllUsers(req, res) {
+	// Reject request from anyone who is not manager
+	if (req.user.type != "manager") {
+		res.status(403).send({message: "Access denied."})
+	}
+	
 	User.find(function(err, users) {
 		if (err) res.json({error: err})
 		res.json({
@@ -15,12 +20,17 @@ function showAllUsers(req, res) {
 
 // To retrieve from database user document by ID
 function showUser(req, res) {
+	// Reject request from anyone who is neither manager nor user whose document is requested
+	if (req.user.type != "manager" && req.user._id != req.params.id) {
+		res.status(403).send({message: "Access denied."})
+	}
+	
 	User.findById(req.params.id, function(err, user) {
 		if (err) res.json({error: err})
 		res.json({
 			message: "User information successfully retrieved.",
 			user: user
-		})
+		})	
 	})
 }
 
@@ -41,6 +51,11 @@ function addUser(req, res, next) {
 
 // To edit user document in database
 function editUser(req, res) {
+	// Reject request from anyone who is not user whose document is requested to be edited
+	if (req.user._id != req.params.id) {
+		res.status(403).send({message: "Access denied."})
+	} 
+	
 	User.findOneAndUpdate({_id: req.params.id}, req.body, {new: true}, function(err, editedUser) {
 		if (err) res.json({error: err})
 		res.json({
@@ -52,6 +67,11 @@ function editUser(req, res) {
 
 // To delete user document from database
 function deleteUser(req, res) {
+	// Reject request from anyone who is neither manager nor user whose document is requested to be deleted
+	if (req.user.type != "manager" && req.user._id != req.params.id) {
+		res.status(403).send({message: "Access denied."})
+	}
+	
 	User.findOneAndRemove({_id: req.params.id}, function(err) {
 		if (err) res.json({error: err})
 		res.json({message: "User successfully deleted."})
