@@ -1,9 +1,14 @@
 // Package inclusions
 var express = require("express")
   , app = express()
+  , mongoose = require("mongoose")
+  , secrets = require("./config.js")
   , bodyParser = require("body-parser")
   , logger = require("morgan")
   , path = require("path")
+  
+// Database connection.
+mongoose.connect(secrets.database)
   
 // Middleware implementations
 // To parse data submitted in request body and populate body object attached to request object
@@ -145,7 +150,7 @@ app.get("*", function(req, res) {
 })
 
 // To run server
-var port = process.env.PORT || 3000
+var port = secrets.port
 
 app.listen(port, function() {
 	console.log("Server running on port " + port)
