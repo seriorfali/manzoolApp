@@ -1,49 +1,51 @@
 var Client = require("../models/Client.js")
-  , jwt = require("jsonwebtoken")
-  , secrets = require("../../config.js")
 
-// To retrieve all user documents from database
-function showAllUsers(req, res) {
-	// Reject request from anyone who is not manager
-	if (req.user.type != "manager") {
-		res.status(403).send({message: "Access denied."})
-	}
-	
-	User.find(function(err, users) {
+// To retrieve all client documents from database
+function showAllClients(req, res) {
+	Client.find(function(err, clients) {
 		if (err) res.json({error: err})
 		res.json({
-			message: "All users' information successfully retrieved.",
-			users: users
+			message: "All clients' information successfully retrieved.",
+			clients: clients
 		})
 	})
 }
 
-// To retrieve from database user document by ID
-function showUser(req, res) {
-	// Reject request from anyone who is neither manager nor user whose document is requested
-	if (req.user.type != "manager" && req.user._id != req.params.id) {
-		res.status(403).send({message: "Access denied."})
-	}
-	
-	User.findById(req.params.id, function(err, user) {
+// To retrieve from database client document by ID
+function showClient(req, res) {
+	Client.findById(req.params.id, function(err, client) {
 		if (err) res.json({error: err})
 		res.json({
-			message: "User information successfully retrieved.",
-			user: user
+			message: "Client information successfully retrieved.",
+			client: client
 		})	
 	})
 }
 
 // To add new client document to database
 function addClient(req, res, next) {
+	// Reject request from anyone who is not manager
+	if (req.user.type != "manager") {
+		res.status(403).send({message: "Access denied."})
+	}
+	
  	Client.findOne({"name": req.body.name}, function(err, client) {
 		if (err) res.json({error: err})
 		if (client) {
-			res.json({error: "User with that email is already registered."})
+			res.json({error: "Client with that name is already registered."})
 		} else {
-			res.json({
-				message: "User successfully added.",
-				addedUser: addedUser
+			var newClient = new Client
+			
+			newClient.name = req.body.name
+			newClient.projects = req.body.projects
+			newClient.website = req.body.website
+
+			newClient.save(function(err, addedClient) {
+				if (err) res.json({error: err})
+				res.json({
+					message: "Client successfully added.",
+					addedClient: addedClient
+				})
 			})
 		}
 	})
@@ -60,7 +62,7 @@ function editClient(req, res) {
 		if (err) res.json({error: err})
 		res.json({
 			message: "Client information successfully edited.",
-			editedUser: editedClient
+			editedClient: editedClient
 		})
 	})
 }
