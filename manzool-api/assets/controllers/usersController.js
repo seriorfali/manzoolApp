@@ -36,14 +36,30 @@ function showUser(req, res) {
 
 // To add new user document to database
 function addUser(req, res, next) {
- 	User.findOne({"email": req.body.email}, function(err, addedUser) {
+ 	User.findOne({"email": req.body.email}, function(err, user) {
 		if (err) res.json({error: err})
-		if (addedUser) {
+		if (user) {
 			res.json({error: "User with that email is already registered."})
 		} else {
-			res.json({
-				message: "User successfully added.",
-				addedUser: addedUser
+			var newUser = new User
+
+			newUser.firstName = req.body.firstName
+			newUser.lastName = req.body.lastName
+			newUser.email = req.body.email
+			newUser.phone = req.body.phone
+			newUser.password = req.body.password
+			if (req.user.type != "manager") {
+				newUser.type = "public"
+			} else {
+				newUser.type = req.body.type
+			}
+
+			newUser.save(function(err, addedUser) {
+				if (err) res.json({error: err})
+				res.json({
+					message: "User successfully added.",
+					addedUser: addedUser
+				})
 			})
 		}
 	})
