@@ -18,7 +18,7 @@ function showClient(req, res) {
 		res.json({
 			message: "Client information successfully retrieved.",
 			client: client
-		})	
+		})
 	})
 }
 
