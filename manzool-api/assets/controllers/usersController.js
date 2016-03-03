@@ -81,7 +81,19 @@ function editUser(req, res) {
 	if (req.user.type != "manager" && req.user._id != req.params.id) {
 		res.status(403).send({message: "Access denied."})
 	} else {
-        User.findOneAndUpdate({_id: req.params.id}, req.body, {new: true}, function(err, editedUser) {
+        var updates = {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email,
+            phone: req.body.phone,
+            password: req.body.password,
+        }
+        
+        if (req.user.type != "manager") {
+            updates.type = req.body.type
+        }
+        
+        User.findOneAndUpdate({_id: req.params.id}, updates, {new: true}, function(err, editedUser) {
             if (err) {
                 res.json({error: err})
             } else {
