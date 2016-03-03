@@ -1,5 +1,5 @@
 var mongoose = require("mongoose")
-  , Url = require("../helpers/mongooseTypes/Phone.js")
+  , Url = require("../helpers/mongooseTypes/Url.js")
   , Schema = mongoose.Schema
   
 // Image schema
@@ -9,4 +9,4 @@ var clientSchema = new Schema({
 	website: Url
 })
 
-module.exports = mongoose.model("Client",clientSchema)
+module.exports = mongoose.model("Client", clientSchema)

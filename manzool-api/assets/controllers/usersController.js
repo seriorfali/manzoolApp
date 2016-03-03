@@ -9,11 +9,14 @@ function showAllUsers(req, res) {
 		res.status(403).send({message: "Access denied."})
 	} else {
         User.find(function(err, users) {
-            if (err) res.json({error: err})
-            res.json({
-                message: "All users' information successfully retrieved.",
-                users: users
-            })
+            if (err) {
+                res.json({error: err})
+            } else {
+                res.json({
+                    message: "All users' information successfully retrieved.",
+                    users: users
+                })
+            }
         })
     }
 }
@@ -25,11 +28,14 @@ function showUser(req, res) {
 		res.status(403).send({message: "Access denied."})
 	} else {
         User.findById(req.params.id, function(err, user) {
-            if (err) res.json({error: err})
-            res.json({
-                message: "User information successfully retrieved.",
-                user: user
-            })	
+            if (err) {
+                res.json({error: err})
+            } else {
+                res.json({
+                    message: "User information successfully retrieved.",
+                    user: user
+                })
+            }
         })
     }
 }
@@ -37,8 +43,9 @@ function showUser(req, res) {
 // To add new user document to database
 function addUser(req, res, next) {
  	User.findOne({"email": req.body.email}, function(err, user) {
-		if (err) res.json({error: err})
-		if (user) {
+		if (err) {
+            res.json({error: err})
+        } else if (user) {
 			res.json({error: "User with that email is already registered."})
 		} else {
 			var newUser = new User
@@ -49,17 +56,20 @@ function addUser(req, res, next) {
 			newUser.phone = req.body.phone
 			newUser.password = req.body.password
 			if (req.user.type != "manager") {
-				newUser.type = "public"
+				newUser.type = "visitor"
 			} else {
 				newUser.type = req.body.type
 			}
 
 			newUser.save(function(err, addedUser) {
-				if (err) res.json({error: err})
-				res.json({
-					message: "User successfully added.",
-					addedUser: addedUser
-				})
+				if (err) {
+                    res.json({error: err})
+                } else {
+                    res.json({
+                        message: "User successfully added.",
+                        addedUser: addedUser
+                    })
+                }
 			})
 		}
 	})
@@ -67,16 +77,19 @@ function addUser(req, res, next) {
 
 // To edit user document in database
 function editUser(req, res) {
-	// Reject request from anyone who is not user whose document is requested to be edited
-	if (req.user._id != req.params.id) {
+	// Reject request from anyone who is neither manager nor user whose document is requested to be edited
+	if (req.user.type != "manager" && req.user._id != req.params.id) {
 		res.status(403).send({message: "Access denied."})
 	} else {
         User.findOneAndUpdate({_id: req.params.id}, req.body, {new: true}, function(err, editedUser) {
-            if (err) res.json({error: err})
-            res.json({
-                message: "User information successfully edited.",
-                editedUser: editedUser
-            })
+            if (err) {
+                res.json({error: err})
+            } else {
+                res.json({
+                    message: "User information successfully edited.",
+                    editedUser: editedUser
+                })
+            }
         })
     }
 }
@@ -88,8 +101,11 @@ function deleteUser(req, res) {
 		res.status(403).send({message: "Access denied."})
 	} else {
         User.findOneAndRemove({_id: req.params.id}, function(err) {
-            if (err) res.json({error: err})
-            res.json({message: "User successfully deleted."})
+            if (err) {
+                res.json({error: err})
+            } else {
+                res.json({message: "User successfully deleted."})
+            }
         })
     }
 }
@@ -97,8 +113,9 @@ function deleteUser(req, res) {
 // To check if user document with specified email exists in database
 function validateUser(req, res) {
 	User.findOne({"email": req.body.email}, function(err, user) {
-		if (err) res.json({error: err})
-		if (!user) {
+		if (err) {
+            res.json({error: err})
+        } else if (!user) {
 			res.json({error: "No user with that email is registered."})
 		} else {
 			res.json({message: "User with that email is registered."})
@@ -109,8 +126,9 @@ function validateUser(req, res) {
 // To authenticate user and grant token
 function authenticateUser(req, res) {
 	User.findOne({"email": req.body.email}, function(err, user) {
-		if (err) res.json({error: err})
-		if (!user) {
+		if (err) {
+            res.json({error: err})
+        } else if (!user) {
 			res.json({error: "No user with that email is registered."})
 		} else {
 			var passwordMatch = user.verifyPassword(req.body.password)
