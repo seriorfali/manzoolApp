@@ -4,6 +4,7 @@ var mongoose = require("mongoose")
   
 // Showroom schema
 var showroomSchema = new Schema({
+	name: String,
 	location: {
 		country: String,
 		city: String,
