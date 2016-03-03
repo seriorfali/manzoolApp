@@ -7,15 +7,15 @@ function showAllUsers(req, res) {
 	// Reject request from anyone who is not manager
 	if (req.user.type != "manager") {
 		res.status(403).send({message: "Access denied."})
-	}
-	
-	User.find(function(err, users) {
-		if (err) res.json({error: err})
-		res.json({
-			message: "All users' information successfully retrieved.",
-			users: users
-		})
-	})
+	} else {
+        User.find(function(err, users) {
+            if (err) res.json({error: err})
+            res.json({
+                message: "All users' information successfully retrieved.",
+                users: users
+            })
+        })
+    }
 }
 
 // To retrieve from database user document by ID
@@ -23,15 +23,15 @@ function showUser(req, res) {
 	// Reject request from anyone who is neither manager nor user whose document is requested
 	if (req.user.type != "manager" && req.user._id != req.params.id) {
 		res.status(403).send({message: "Access denied."})
-	}
-	
-	User.findById(req.params.id, function(err, user) {
-		if (err) res.json({error: err})
-		res.json({
-			message: "User information successfully retrieved.",
-			user: user
-		})	
-	})
+	} else {
+        User.findById(req.params.id, function(err, user) {
+            if (err) res.json({error: err})
+            res.json({
+                message: "User information successfully retrieved.",
+                user: user
+            })	
+        })
+    }
 }
 
 // To add new user document to database
@@ -70,15 +70,15 @@ function editUser(req, res) {
 	// Reject request from anyone who is not user whose document is requested to be edited
 	if (req.user._id != req.params.id) {
 		res.status(403).send({message: "Access denied."})
-	}
-	
-	User.findOneAndUpdate({_id: req.params.id}, req.body, {new: true}, function(err, editedUser) {
-		if (err) res.json({error: err})
-		res.json({
-			message: "User information successfully edited.",
-			editedUser: editedUser
-		})
-	})
+	} else {
+        User.findOneAndUpdate({_id: req.params.id}, req.body, {new: true}, function(err, editedUser) {
+            if (err) res.json({error: err})
+            res.json({
+                message: "User information successfully edited.",
+                editedUser: editedUser
+            })
+        })
+    }
 }
 
 // To delete user document from database
@@ -86,12 +86,12 @@ function deleteUser(req, res) {
 	// Reject request from anyone who is neither manager nor user whose document is requested to be deleted
 	if (req.user.type != "manager" && req.user._id != req.params.id) {
 		res.status(403).send({message: "Access denied."})
-	}
-	
-	User.findOneAndRemove({_id: req.params.id}, function(err) {
-		if (err) res.json({error: err})
-		res.json({message: "User successfully deleted."})
-	})
+	} else {
+        User.findOneAndRemove({_id: req.params.id}, function(err) {
+            if (err) res.json({error: err})
+            res.json({message: "User successfully deleted."})
+        })
+    }
 }
 
 // To check if user document with specified email exists in database
@@ -107,7 +107,7 @@ function validateUser(req, res) {
 }
 
 // To authenticate user and grant token
-function login(req, res) {
+function authenticateUser(req, res) {
 	User.findOne({"email": req.body.email}, function(err, user) {
 		if (err) res.json({error: err})
 		if (!user) {
@@ -161,7 +161,7 @@ module.exports = {
 	editUser: editUser,
 	deleteUser: deleteUser,
 	validateUser: validateUser,
-	login: login,
+	authenticateUser: authenticateUser,
 	identifyUser: identifyUser,
 	showCurrentUser: showCurrentUser
 }

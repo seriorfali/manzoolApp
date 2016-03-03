@@ -60,15 +60,15 @@ function editShowroom(req, res) {
 	// Reject request from anyone who is not manager
 	if (req.user.type != "manager") {
 		res.status(403).send({message: "Access denied."})
-	}
-	
-	Showroom.findOneAndUpdate({_id: req.params.id}, req.body, {new: true}, function(err, editedShowroom) {
-		if (err) res.json({error: err})
-		res.json({
-			message: "Showroom information successfully edited.",
-			editedShowroom: editedShowroom
-		})
-	})
+	} else {
+        Showroom.findOneAndUpdate({_id: req.params.id}, req.body, {new: true}, function(err, editedShowroom) {
+            if (err) res.json({error: err})
+            res.json({
+                message: "Showroom information successfully edited.",
+                editedShowroom: editedShowroom
+            })
+        })
+    }
 }
 
 // To delete showroom document from database
@@ -76,12 +76,12 @@ function deleteShowroom(req, res) {
 	// Reject request from anyone who is not manager
 	if (req.user.type != "manager") {
 		res.status(403).send({message: "Access denied."})
-	}
-	
-	Showroom.findOneAndRemove({_id: req.params.id}, function(err) {
-		if (err) res.json({error: err})
-		res.json({message: "Showroom successfully deleted."})
-	})
+	} else {
+        Showroom.findOneAndRemove({_id: req.params.id}, function(err) {
+            if (err) res.json({error: err})
+            res.json({message: "Showroom successfully deleted."})
+        })
+    }
 }
 
 module.exports = {

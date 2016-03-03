@@ -60,15 +60,15 @@ function editProject(req, res) {
 	// Reject request from anyone who is not manager
 	if (req.user.type != "manager") {
 		res.status(403).send({message: "Access denied."})
-	}
-	
-	Project.findOneAndUpdate({_id: req.params.id}, req.body, {new: true}, function(err, editedProject) {
-		if (err) res.json({error: err})
-		res.json({
-			message: "Project information successfully edited.",
-			editedProject: editedProject
-		})
-	})
+	} else {
+        Project.findOneAndUpdate({_id: req.params.id}, req.body, {new: true}, function(err, editedProject) {
+            if (err) res.json({error: err})
+            res.json({
+                message: "Project information successfully edited.",
+                editedProject: editedProject
+            })
+        })
+    }
 }
 
 // To delete project document from database
@@ -76,12 +76,12 @@ function deleteProject(req, res) {
 	// Reject request from anyone who is not manager
 	if (req.user.type != "manager") {
 		res.status(403).send({message: "Access denied."})
-	}
-	
-	Project.findOneAndRemove({_id: req.params.id}, function(err) {
-		if (err) res.json({error: err})
-		res.json({message: "Project successfully deleted."})
-	})
+	} else {
+        Project.findOneAndRemove({_id: req.params.id}, function(err) {
+            if (err) res.json({error: err})
+            res.json({message: "Project successfully deleted."})
+        })
+    }
 }
 
 module.exports = {

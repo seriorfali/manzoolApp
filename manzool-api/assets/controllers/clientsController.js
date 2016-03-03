@@ -56,15 +56,15 @@ function editClient(req, res) {
 	// Reject request from anyone who is not manager
 	if (req.user.type != "manager") {
 		res.status(403).send({message: "Access denied."})
-	}
-	
-	Client.findOneAndUpdate({_id: req.params.id}, req.body, {new: true}, function(err, editedClient) {
-		if (err) res.json({error: err})
-		res.json({
-			message: "Client information successfully edited.",
-			editedClient: editedClient
-		})
-	})
+	} else {
+        Client.findOneAndUpdate({_id: req.params.id}, req.body, {new: true}, function(err, editedClient) {
+            if (err) res.json({error: err})
+            res.json({
+                message: "Client information successfully edited.",
+                editedClient: editedClient
+            })
+        })
+    }
 }
 
 // To delete client document from database
@@ -72,12 +72,12 @@ function deleteClient(req, res) {
 	// Reject request from anyone who is not manager
 	if (req.user.type != "manager") {
 		res.status(403).send({message: "Access denied."})
-	}
-	
-	Client.findOneAndRemove({_id: req.params.id}, function(err) {
-		if (err) res.json({error: err})
-		res.json({message: "Client successfully deleted."})
-	})
+	} else {
+        Client.findOneAndRemove({_id: req.params.id}, function(err) {
+            if (err) res.json({error: err})
+            res.json({message: "Client successfully deleted."})
+        })
+    }
 }
 
 module.exports = {

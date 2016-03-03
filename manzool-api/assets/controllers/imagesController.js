@@ -112,66 +112,62 @@ function showImage(req, res) {
 
 // To add new image document to database
 function addImage(req, res, next) {
-	if (req.body.type != "user") {
-       // Reject request from anyone who is not manager
-		if (req.user.type != "manager") {
-			res.status(403).send({message: "Access denied."})
-		}
-	}
-	
- 	Image.findOne({"url": req.body.url}, function(err, image) {
-		if (err) res.json({error: err})	
-		if (image) {
-			res.json({error: "Image with that URL is already registered."})
-		} else {
-			var newImage = new Image
-		
-			newImage.type = req.body.type
-            newImage.url = req.body.url
-            
-            if (newImage.type === "client") {
-                newImage.client = req.body.client
-            } else if (newImage.type === "project") {
-                newImage.project = req.body.project
-            } else if (newImage.type === "showroom") {
-                newImage.showroom = req.body.showroom
-            } else if (newImage.type === "user") {
-                newImage.user = req.body.user
+    // Reject request to add non-user image document from anyone who is not manager
+	if (req.body.type != "user" && req.user.type != "manager") {
+        res.status(403).send({message: "Access denied."})
+	} else {
+        Image.findOne({"url": req.body.url}, function(err, image) {
+            if (err) res.json({error: err})	
+            if (image) {
+                res.json({error: "Image with that URL is already registered."})
             } else {
-                res.json({error: "Invalid image type."})
-            }
+                var newImage = new Image
+            
+                newImage.type = req.body.type
+                newImage.url = req.body.url
 
-			newImage.save(function(err, addedImage) {
-				if (err) res.json({error: err})
-				res.json({
-					message: "Image successfully added.",
-					addedImage: addedImage
-				})
-			})
-		}
-	})
+                if (newImage.type === "client" || newImage.type === "project" || newImage.type === "showroom" || newImage.type === "user") {
+                    if (newImage.type === "client") {
+                        newImage.client = req.body.client
+                    } else if (newImage.type === "project") {
+                        newImage.project = req.body.project
+                    } else if (newImage.type === "showroom") {
+                        newImage.showroom = req.body.showroom
+                    } else if (newImage.type === "user") {
+                        newImage.user = req.body.user
+                    }
+                    
+                    newImage.save(function(err, addedImage) {
+                        if (err) res.json({error: err})
+                        res.json({
+                            message: "Image successfully added.",
+                            addedImage: addedImage
+                        })
+                    })
+                } else {
+                    res.json({error: "Invalid image type."})
+                }
+            }
+        })
+    }
 }
 
 // To delete image document from database
 function deleteImage(req, res) {
 	Image.findById(req.params.id, function(err, image) {
 		if (err) res.json({error: err})
-        if (image.type != "user") {
-            // Reject request from anyone who is not manager
-            if (req.user.type != "manager") {
-                res.status(403).send({message: "Access denied."})
-            }
-        } else if (image.type === "user") {
-            // Reject request from anyone who is not user whose image document is requested to be deleted
-            if (req.user._id != image.user) {
-                res.status(403).send({message: "Access denied."})
-            }
+        // Reject request to delete non-user image document from anyone who is not manager
+        if (image.type != "user" && req.user.type != "manager") {
+            res.status(403).send({message: "Access denied."})
+        // Reject request from anyone who is not user whose image document is requested to be deleted
+        } else if (image.type === "user" && req.user._id != image.user) {
+            res.status(403).send({message: "Access denied."})
+        } else {
+            image.remove(function(err) {
+                if (err) res.json({error: err})
+                res.json({message: "Image successfully deleted."})
+            })
         }
-        
-        image.remove(function(err) {
-            if (err) res.json({error: err})
-            res.json({message: "Image successfully deleted."})
-        })
 	})
 }
 

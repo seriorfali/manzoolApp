@@ -1,6 +1,6 @@
 var imageRouter = require("express").Router()
 // To access images and users controllers.
-  , imagesController = require("../assets/controllers/projectsController.js")
+  , imagesController = require("../assets/controllers/imagesController.js")
   , usersController = require("../assets/controllers/usersController.js")
 
 // Public routes to handle requests to retrieve client, project, showroom, user, single, and all images
