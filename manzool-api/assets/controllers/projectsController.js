@@ -6,7 +6,7 @@ function showAllProjects(req, res) {
 		if (err) res.json({error: err})
 		res.json({
 			message: "All projects' information successfully retrieved.",
-			project: projects
+			projects: projects
 		})
 	})
 }

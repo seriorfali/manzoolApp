@@ -70,7 +70,7 @@ function editUser(req, res) {
 	// Reject request from anyone who is not user whose document is requested to be edited
 	if (req.user._id != req.params.id) {
 		res.status(403).send({message: "Access denied."})
-	} 
+	}
 	
 	User.findOneAndUpdate({_id: req.params.id}, req.body, {new: true}, function(err, editedUser) {
 		if (err) res.json({error: err})

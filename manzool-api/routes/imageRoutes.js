@@ -30,9 +30,6 @@ imageRouter.use(usersController.identifyUser)
 // User-restricted routes
 imageRouter.post("/images", imagesController.addImage)
 
-imageRouter.route("/images/:id")
-  .put(imagesController.editImage)
-  .patch(imagesController.editImage)
-  .delete(imagesController.deleteImage)
+imageRouter.delete("/images/:id", imagesController.deleteImage)
 
 module.exports = imageRouter
