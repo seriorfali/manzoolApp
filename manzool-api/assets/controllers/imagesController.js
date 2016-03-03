@@ -194,8 +194,8 @@ function deleteImage(req, res) {
         // Reject request to delete non-user image document from anyone who is not manager
         } else if (image.type != "user" && req.user.type != "manager") {
             res.status(403).send({message: "Access denied."})
-        // Reject request from anyone who is not user whose image document is requested to be deleted
-        } else if (image.type === "user" && req.user._id != image.user) {
+        // Reject request from anyone who is neither manager nor user whose image document is requested to be deleted
+        } else if (image.type === "user" && req.user._id != image.user && req.user.type != "manager") {
             res.status(403).send({message: "Access denied."})
         } else {
             image.remove(function(err) {

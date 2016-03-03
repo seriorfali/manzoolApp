@@ -89,7 +89,7 @@ function editUser(req, res) {
             password: req.body.password,
         }
         
-        if (req.user.type != "manager") {
+        if (req.user.type === "manager") {
             updates.type = req.body.type
         }
         
