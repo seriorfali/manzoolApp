@@ -7,11 +7,15 @@ function Email(path, options) {
 	
 	// To check if value is valid email
 	function validateEmail(value) {
-		var regExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+        if (!value || value === "/") {
+            return true
+        } else {
+            var regExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 
-		return regExp.test(value)
+            return regExp.test(value)
+        }
 	}
-	
+    
 	this.validate(validateEmail, "Not a valid email address")
 }
 

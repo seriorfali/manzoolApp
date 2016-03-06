@@ -167,14 +167,18 @@ function identifyUser(req, res, next) {
 		res.status(403).send({message: "No token provided."})
 	} else {
 		jwt.verify(token, secrets.tokenSecretKey, function(err, decodedToken) {
-			User.findById(decodedToken.userId, function(err, user) {
-				if (!user) {
-					res.status(403).send({message: "User not recognized."})
-				} else {
-					req.user = user
-					next()
-				}
-			})
+            if (err) {
+                res.json({error: err})
+            } else {
+                User.findById(decodedToken.userId, function(err, user) {
+                    if (!user) {
+                        res.status(403).send({message: "User not recognized."})
+                    } else {
+                        req.user = user
+                        next()
+                    }
+                })
+            }
 		})
 	}
 }

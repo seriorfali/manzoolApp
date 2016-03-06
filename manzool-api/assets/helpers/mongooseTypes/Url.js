@@ -5,14 +5,18 @@ var mongoose = require("mongoose")
 function Url(path, options) {
 	// To initialize string properties and methods for URL prototype
 	mongoose.SchemaTypes.String.call(this, path, options, "Url")
-	
+      
 	// To check if value is valid URL
 	function validateUrl(value) {
-		var regExp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
-		
-		return regExp.test(value)
+        if (!value || value === "/") {
+            return true
+        } else {
+            var regExp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+            
+            return regExp.test(value)
+        }
 	}
-	
+    
 	this.validate(validateUrl, "Not a valid URL")
 }
 

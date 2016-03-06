@@ -3,10 +3,11 @@ var mongoose = require("mongoose")
   , Phone = require("../helpers/mongooseTypes/Phone.js")
   , Url = require("../helpers/mongooseTypes/Phone.js")
   , Schema = mongoose.Schema
+  , emptyFields = require("../helpers/schemaMiddleware/emptyFields.js")
   , encrypter = require("bcrypt-nodejs")
-
-// User schema
-var userSchema = new Schema({
+  
+// Fields for user schema
+var fields = {
 	type: String,
 	firstName: String,
 	lastName: String,
@@ -22,11 +23,16 @@ var userSchema = new Schema({
 		required: true
 	},
 	images: [{type: Schema.Types.ObjectId, ref: "Image"}]
-})
+}
+
+// User schema
+var userSchema = new Schema(fields)
 
 // If user is new or password is changed, encrypt password before user data is saved
 userSchema.pre("save", function(next) {
-	var user = this
+    var user = this
+    
+    emptyFields.setToUndefined(user, fields)
 	
 	if (!user.isModified("password")) return next
 	
