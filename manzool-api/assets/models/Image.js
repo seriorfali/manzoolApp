@@ -5,11 +5,10 @@ var mongoose = require("mongoose")
   
 // Fields image schema
 var fields = {
-	type: String,
-	client: {type: Schema.Types.ObjectId, ref: "Client"},
-	project: {type: Schema.Types.ObjectId, ref: "Project"},
-	showroom: {type: Schema.Types.ObjectId, ref: "Showroom"},
-	user: {type: Schema.Types.ObjectId, ref: "User"},
+	subject: {
+        kind: String,
+        doc: {type: Schema.Types.ObjectId, refPath: "subject.kind"}
+    },
 	url: Url
 }
   

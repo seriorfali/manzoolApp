@@ -5,8 +5,6 @@ var brandRouter = require("express").Router()
   
 brandRouter.get("/brands", brandsController.showAllBrands)
 
-brandRouter.get("/projects/:project_id/brands", brandsController.showProjectBrands)
-
 brandRouter.get("/brands/:id", brandsController.showBrand)
 
 // To identify user submitting request

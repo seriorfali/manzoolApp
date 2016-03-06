@@ -5,7 +5,8 @@ var mongoose = require("mongoose")
   
 // Fields for brand schema
 var fields = {
-	type: String,
+	products: [String],
+    description: String,
 	projects: [{type: Schema.Types.ObjectId, ref: "Project"}],
 	website: Url,
 	images: [{type: Schema.Types.ObjectId, ref: "Image"}]

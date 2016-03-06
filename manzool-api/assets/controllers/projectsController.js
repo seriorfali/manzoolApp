@@ -5,6 +5,8 @@ function showAllProjects(req, res) {
 	Project.find(function(err, projects) {
 		if (err) {
             res.json({error: err})
+        } else if (!projects) {
+            res.json({error: "No projects are registered."})
         } else {
             res.json({
                 message: "All projects' information successfully retrieved.",
@@ -19,6 +21,8 @@ function showProject(req, res) {
 	Project.findById(req.params.id, function(err, project) {
 		if (err) {
             res.json({error: err})
+        } else if (!project) {
+            res.json({error: "No registered project has that ID."})
         } else {
             res.json({
                 message: "Project information successfully retrieved.",
@@ -29,7 +33,7 @@ function showProject(req, res) {
 }
 
 // To add new project document to database
-function addProject(req, res, next) {
+function addProject(req, res) {
 	// Reject request from anyone who is not manager
 	if (req.user.type != "manager") {
 		res.status(403).send({message: "Access denied."})

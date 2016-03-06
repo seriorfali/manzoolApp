@@ -5,6 +5,8 @@ function showAllShowrooms(req, res) {
 	Showroom.find(function(err, showrooms) {
 		if (err) {
             res.json({error: err})
+        } else if (!showrooms) {
+            res.json({error: "No showrooms are registered."})
         } else {
             res.json({
                 message: "All showrooms' information successfully retrieved.",
@@ -19,6 +21,8 @@ function showShowroom(req, res) {
 	Showroom.findById(req.params.id, function(err, showroom) {
 		if (err) {
             res.json({error: err})
+        } else if (!showroom) {
+            res.json({error: "No registered showroom has that ID."})
         } else {
             res.json({
                 message: "Showroom information successfully retrieved.",
@@ -29,7 +33,7 @@ function showShowroom(req, res) {
 }
 
 // To add new showroom document to database
-function addShowroom(req, res, next) {
+function addShowroom(req, res) {
 	// Reject request from anyone who is not manager
 	if (req.user.type != "manager") {
 		res.status(403).send({message: "Access denied."})

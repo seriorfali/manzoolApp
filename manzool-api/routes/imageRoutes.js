@@ -8,19 +8,11 @@ imageRouter.get("/images", imagesController.showAllImages)
 
 imageRouter.get("/clients/images", imagesController.showAllClientImages)
 
-imageRouter.get("/clients/:client_id/images", imagesController.showClientImages)
-
 imageRouter.get("/projects/images", imagesController.showAllProjectImages)
-
-imageRouter.get("/projects/:project_id/images", imagesController.showProjectImages)
 
 imageRouter.get("/showrooms/images", imagesController.showAllShowroomImages)
 
-imageRouter.get("/showrooms/:showroom_id/images", imagesController.showShowroomImages)
-
 imageRouter.get("/users/images", imagesController.showAllUserImages)
-
-imageRouter.get("/users/:user_id/images", imagesController.showUserImages)
 
 imageRouter.get("/images/:id", imagesController.showImage)
 

@@ -49,13 +49,9 @@ var routeInfo = {
 			images: {
 				showAllImages: "/api/v1/images/",
 				showAllClientImages: "/api/v1/clients/images/",
-				showClientImages: "/api/v1/clients/CLIENT_ID/images/",
 				showAllProjectImages: "/api/v1/projects/images/",
-				showProjectImages: "/api/v1/projects/PROJECT_ID/images/",
 				showAllShowroomImages: "/api/v1/showrooms/images/",
-				showShowroomImages: "/api/v1/showrooms/SHOWROOM_ID/images/",
 				showAllUserImages: "/api/v1/users/images/",
-				showUserImages: "/api/v1/users/USER_ID/images/",
 				showImage: "/api/v1/images/IMAGE_ID/"
 			},
 			projects: {

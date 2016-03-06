@@ -11,6 +11,8 @@ function showAllUsers(req, res) {
         User.find(function(err, users) {
             if (err) {
                 res.json({error: err})
+            } else if (!users) {
+                res.json({error: "No users are registered."})
             } else {
                 res.json({
                     message: "All users' information successfully retrieved.",
@@ -30,6 +32,8 @@ function showUser(req, res) {
         User.findById(req.params.id, function(err, user) {
             if (err) {
                 res.json({error: err})
+            } else if (!user) {
+                res.json({error: "No registered user has that ID."})
             } else {
                 res.json({
                     message: "User information successfully retrieved.",
@@ -41,7 +45,7 @@ function showUser(req, res) {
 }
 
 // To add new user document to database
-function addUser(req, res, next) {
+function addUser(req, res) {
  	User.findOne({"email": req.body.email}, function(err, user) {
 		if (err) {
             res.json({error: err})
@@ -170,8 +174,10 @@ function identifyUser(req, res, next) {
             if (err) {
                 res.json({error: err})
             } else {
-                User.findById(decodedToken.userId, function(err, user) {
-                    if (!user) {
+                User.findById(decodedToken.userId, function(userFindErr, user) {
+                    if (userFindErr) {
+                        res.json({error: userFindErr})
+                    } else if (!user) {
                         res.status(403).send({message: "User not recognized."})
                     } else {
                         req.user = user

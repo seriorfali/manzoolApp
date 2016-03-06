@@ -5,6 +5,8 @@ function showAllClients(req, res) {
 	Client.find(function(err, clients) {
 		if (err) {
             res.json({error: err})
+        } else if (!clients) {
+            res.json({error: "No clients are registered."})
         } else {
             res.json({
                 message: "All clients' information successfully retrieved.",
@@ -19,6 +21,8 @@ function showClient(req, res) {
 	Client.findById(req.params.id, function(err, client) {
 		if (err) {
             res.json({error: err})
+        } else if (!client) {
+            res.json({error: "No registered client has that ID."})
         } else {
             res.json({
                 message: "Client information successfully retrieved.",
@@ -29,7 +33,7 @@ function showClient(req, res) {
 }
 
 // To add new client document to database
-function addClient(req, res, next) {
+function addClient(req, res) {
 	// Reject request from anyone who is not manager
 	if (req.user.type != "manager") {
 		res.status(403).send({message: "Access denied."})
