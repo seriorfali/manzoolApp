@@ -18,16 +18,18 @@ app.use(bodyParser.json())
 app.use(logger("dev"))
 
 // API routes
-var clientRoutes = require("./routes/clientRoutes.js")
+var brandRoutes = require("./routes/brandRoutes.js")
+  , clientRoutes = require("./routes/clientRoutes.js")
   , imageRoutes = require("./routes/imageRoutes.js")
   , projectRoutes = require("./routes/projectRoutes.js")
   , showroomRoutes = require("./routes/showroomRoutes.js")
   , userRoutes = require("./routes/userRoutes.js")
-  
+
 app.use("/api/v1/clients", clientRoutes)
 app.use("/api/v1/projects", projectRoutes)
 app.use("/api/v1/showroom", showroomRoutes)
 app.use("/api/v1/users", userRoutes)
+app.use("/api/v1", brandRoutes)
 app.use("/api/v1", imageRoutes)
 
 // Response for requests to unassigned routes
@@ -35,6 +37,11 @@ var routeInfo = {
 	message: "Please submit a request to one of the available routes.",
 	publicRoutes: {
 		get: {
+            brands: {
+                showAllBrands: "/api/v1/brands/",
+                showProjectBrands: "/api/v1/projects/PROJECT_ID/brands/",
+                showBrand: "/api/v1/brands/BRAND_ID/"
+            },
 			clients: {
 				showAllClients: "/api/v1/clients/",
 				showClient: "/api/v1/clients/CLIENT_ID/"
@@ -77,6 +84,9 @@ var routeInfo = {
 			}
 		},
 		post: {
+            brands: {
+                addBrand: "/api/v1/brands/"
+            },
 			clients: {
 				addClient: "/api/v1/clients/"
 			},
@@ -91,6 +101,9 @@ var routeInfo = {
 			}
 		},
 		put: {
+			brands: {
+				editBrand: "/api/v1/brands/BRAND_ID/"
+			},
 			clients: {
 				editClient: "/api/v1/clients/CLIENT_ID/"
 			},
@@ -108,6 +121,9 @@ var routeInfo = {
 			}
 		},
 		patch: {
+			brands: {
+				editBrand: "/api/v1/brands/BRAND_ID/"
+			},
 			clients: {
 				editClient: "/api/v1/clients/CLIENT_ID/"
 			},
@@ -125,6 +141,9 @@ var routeInfo = {
 			}
 		},
 		delete: {
+			brands: {
+				deleteBrand: "/api/v1/brands/BRAND_ID/"
+			},
 			clients: {
 				deleteClient: "/api/v1/clients/CLIENT_ID/"
 			},
