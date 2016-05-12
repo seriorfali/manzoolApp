@@ -174,9 +174,9 @@ function identifyUser(req, res, next) {
             if (err) {
                 res.json({error: err})
             } else {
-                User.findById(decodedToken.userId, function(userFindErr, user) {
-                    if (userFindErr) {
-                        res.json({error: userFindErr})
+                User.findById(decodedToken.userId, function(err, user) {
+                    if (err) {
+                        res.json({error: err})
                     } else if (!user) {
                         res.status(403).send({message: "User not recognized."})
                     } else {

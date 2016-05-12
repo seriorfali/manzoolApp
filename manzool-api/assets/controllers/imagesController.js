@@ -129,7 +129,7 @@ function addImage(req, res) {
                 })
                 
                 if (matchedModel) {
-                    matchedModel.findById(subjectId, function(docFindErr, subject) {
+                    matchedModel.findById(subjectId, function(err, subject) {
                         if (err) {
                             res.json({error: err})
                         } else {
@@ -137,15 +137,16 @@ function addImage(req, res) {
                             newImage.subject.doc = subjectId
                             newImage.url = req.body.url
                             
-                            newImage.save(function(imageSaveErr, addedImage) {
-                                if (imageSaveErr) {
-                                    res.json({error: imageSaveErr})
+                            newImage.save(function(err, addedImage) {
+                                if (err) {
+                                    res.json({error: err})
                                 } else {
                                     subject.images.push(addedImage)
-                                    subject.save(function(subjectSaveErr, editedSubject) {
-                                        if (subjectSaveErr) {
+                                    subject.save(function(err, editedSubject) {
+                                        if (err) {
                                             res.json({
-                                                message: "Image added, but failed to update subject.",
+                                                message: "Image successfully added, but error in updating subject.",
+                                                error: err,
                                                 addedImage: addedImage
                                             })
                                         } else {

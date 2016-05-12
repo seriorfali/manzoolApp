@@ -7,6 +7,7 @@ var mongoose = require("mongoose")
 var fields = {
 	name: String,
 	client: {type: Schema.Types.ObjectId, ref: "Client"},
+    brands: [{type: Schema.Types.ObjectId, ref: "Brand"}],
 	location: {
 		country: String,
 		city: String,

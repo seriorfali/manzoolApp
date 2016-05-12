@@ -7,7 +7,8 @@ var mongoose = require("mongoose")
 var fields = {
 	name: String,
 	projects: [{type: Schema.Types.ObjectId, ref: "Project"}],
-	website: Url
+	website: Url,
+    images: [{type: Schema.Types.ObjectId, ref: "Image"}]
 }
   
 // Client schema
